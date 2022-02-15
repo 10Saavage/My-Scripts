@@ -5,19 +5,23 @@
 #
 #COMMANDS
 
+###########################################################
 #color of output
 red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[1;33m'
 NC='\033[0m' #No Color
-
+###########################################################
 
 POSTGRESQL_HOME=/usr/local/pgsql/
 POSTGRESQL_LOG=/var/my_config/logs/postgresql/postgresql
 POSTGRESQL_PID=/usr/local/pgsql/data/postmaster.pid
 POSTGRESQL_DATA=$POSTGRESQL_HOME/data
 
+#to start PostgreSQL service
 start() {
+    #chek if PostgreSQL service is running
+    #check if file 'postmaster.pid' exists
     if [ -e $POSTGRESQL_PID ] 
     then
         echo -e "${yellow}PostgreSQL is already started ${NC}"
@@ -26,7 +30,10 @@ start() {
     fi
 }
 
+#to stop PostgreSQL service
 stop() {
+    #chek if PostgreSQL service is running
+    #check if file 'postmaster.pid' exists
     if [ -e $POSTGRESQL_PID ]
     then
         $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG stop
@@ -36,7 +43,10 @@ stop() {
     fi
 }
 
+#to restart PostgreSQL service
 restart() {
+    #chek if PostgreSQL service is running
+    #check if file 'postmaster.pid' exists
     if [ -e $POSTGRESQL_PID ]
     then
         $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG reload
@@ -46,7 +56,10 @@ restart() {
     fi
 }
 
+#check the status of PostgreSQL
 status() {
+    #chek if PostgreSQL service is running
+    #check if file 'postmaster.pid' exists
     if [ -e $POSTGRESQL_PID ]
     then
         $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA status
@@ -57,30 +70,47 @@ status() {
     fi
 }
 
+#list databases
 list_databases() {
     $POSTGRESQL_HOME/bin/psql -U manoel -l 
 }
 
+#to log on the command line
 connect() {
-    list_databases
-    echo -e "Connect to Database"
-    read -p "Name of Database: " database
-    $POSTGRESQL_HOME/bin/psql -W -U manoel -h localhost -d $database 
+    #chek if PostgreSQL service is running
+    #check if file 'postmaster.pid' exists
+    if [ -e $POSTGRESQL_PID ]
+    then
+        list_databases
+        echo -e "Connect to Database"
+        read -p "user(default: manoel) : " user
+        read -p "Name of Database: " database
+
+        #check if user is not empty
+        if [ $user ]
+        then
+            $POSTGRESQL_HOME/bin/psql -W -U $user -h localhost -d $database 
+        else
+            $POSTGRESQL_HOME/bin/psql -W -U manoel -h localhost -d $database
+        fi
+    else
+        echo -e "${red}PostgreSQL is stopped. ${NC}"
+        echo -e "${yellow}You need to start PostgreSQL service ${NC}"
+    fi
 }
 
+# Display Help
 help()
 {
-   # Display Help
    echo "Available options are: "
-   echo "{start|stop|restart|status|list_db|connect}"
+   echo "{start|stop|restart|status|list_db|log}"
    echo " "
    echo "start      to start PostgreSQL"
    echo "stop       to stop PostgreSQL"
    echo "restart    to restart PostgreSQL"
-   echo "status     to look the status of PostgreSQL"
+   echo "status     to check the status of PostgreSQL"
    echo "list_db    to list all databases"
-   echo "connect    to connect to database"
-
+   echo "connect    to log on the command line"
 }
 
 case "$1" in 
