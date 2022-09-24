@@ -3,7 +3,7 @@
 ## Permissions
 
 ``` bash
-chmod +x manoel_postgres
+chmod +x postgres
 ```
 
 ## Usage
@@ -12,47 +12,47 @@ chmod +x manoel_postgres
 use parameter **start**
 
 ``` bash
-./manoel_postgres start
+./postgres start
 ```
 
 ### Stop PostgreSQL service
 use parameter **stop**
 
 ``` bash
-./manoel_postgres stop
+./postgres stop
 ```
 
 ### check the status PostgreSQL service
 use parameter **status**
 
 ``` bash
-./manoel_postgres status
+./postgres status
 ```
 
 ### Restart PostgreSQL service
 use parameter **restart**
 
 ``` bash
-./manoel_postgres restart
+./postgres restart
 ```
 
 ### list all databases of PostgreSQL
 use parameter **list_db**
 
 ``` bash
-./manoel_postgres list_db
+./postgres list_db
 ```
 
 ### Log on the command line
 use parameter **connect**
 
 ``` bash
-./manoel_postgres connect
+./postgres connect
 ```
 ### Display Help
 
 use parameter **-h**
 
 ``` bash
-./manoel_postgres -h
+./postgres -h
 ```

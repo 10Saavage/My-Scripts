@@ -3,7 +3,7 @@
 ## Permissions
 
 ``` bash
-chmod +x manoel_mysql
+chmod +x mysql
 ```
 ## Usage
 
@@ -11,12 +11,12 @@ chmod +x manoel_mysql
 
 use parameter **start**
 ``` bash
-./manoel_mysql start
+./mysql start
 ```
 
 you can also make this
 ``` bash
-./manoel_mysql
+./mysql
 ```
 
 
@@ -25,20 +25,20 @@ you can also make this
 
 use parameter **stop**
 ``` bash
-./manoel_mysql stop
+./mysql stop
 ```
 
 ### Chech the status of MySQL
 
 use parameter **status**
 ``` bash
-./manoel_mysql status
+./mysql status
 ```
 ### Log on the Command line
 
 use parameter **connect**
 ``` bash
-./manoel_mysql connect
+./mysql connect
 ```
 
 ### Display Help
@@ -46,5 +46,5 @@ use parameter **connect**
 use parameter **-h**
 
 ``` bash
-./manoel_mysql -h
+./mysql -h
 ```
