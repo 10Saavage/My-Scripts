@@ -3,8 +3,6 @@
 #AUTHOR: TOUSSI MANOEL MALAURY
 #DESCRIPTION
 #
-#COMMANDS
-
 ###########################################################
 #color of output
 red='\033[0;31m'
@@ -14,8 +12,14 @@ NC='\033[0m' #No Color
 ###########################################################
 
 POSTGRESQL_HOME=/usr/local/pgsql/
-POSTGRESQL_LOG=/var/my_config/logs/postgresql/postgresql
-POSTGRESQL_PID=/usr/local/pgsql/data/postmaster.pid
+POSTGRESQL_LOG=$POSTGRESQL_HOME/logs/postgresql
+##########################################################
+#you must create the directory logs on POSTGRESQL_HOME
+#mkdir logs
+#create file postgre
+#touch postgre
+##########################################################
+POSTGRESQL_PID=$POSTGRESQL_HOME/data/postmaster.pid
 POSTGRESQL_DATA=$POSTGRESQL_HOME/data
 
 #to start PostgreSQL service
@@ -72,7 +76,7 @@ status() {
 
 #list databases
 list_databases() {
-    $POSTGRESQL_HOME/bin/psql -U manoel -l 
+    $POSTGRESQL_HOME/bin/psql -U postgres -l 
 }
 
 #to log on the command line
@@ -83,7 +87,7 @@ connect() {
     then
         list_databases
         echo -e "Connect to Database"
-        read -p "user(default: manoel) : " user
+        read -p "user(default: postgres) : " user
         read -p "Name of Database: " database
 
         #check if user is not empty
@@ -91,7 +95,7 @@ connect() {
         then
             $POSTGRESQL_HOME/bin/psql -W -U $user -h localhost -d $database 
         else
-            $POSTGRESQL_HOME/bin/psql -W -U manoel -h localhost -d $database
+            $POSTGRESQL_HOME/bin/psql -W -U postgres -h localhost -d $database
         fi
     else
         echo -e "${red}PostgreSQL is stopped. ${NC}"

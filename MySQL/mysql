@@ -6,7 +6,6 @@
 #
 #COMMANDS
 
-
 ###########################################################
 #these lines permit to check the status of MySQL service
 ps -aux | grep "mysql" | pidof mysqld > /dev/null
@@ -23,8 +22,7 @@ NC='\033[0m' #No Color
 ###########################################################
 
 MYSQL_HOME=/usr/local/mysql
-MYSQL_LOGS=/var/log/mysql/
-MYSQL_PID=/var/my_config/pid/mysql.pid
+MYSQL_PID=$MYSQL_HOME/data/mysql.pid
 
 #get the pid of MySQL
 mysql_pid() {
@@ -77,10 +75,8 @@ status() {
     if [ $zero = $verifier ]
     then
     echo -e "${green}MySQL is running ... ${NC}"
-    tail $MYSQL_LOGS/mysql-error.log
     else
     echo -e "${red}MySQL is stopped ${NC}"
-    tail $MYSQL_LOGS/mysql-error.log
     fi
 }
 
