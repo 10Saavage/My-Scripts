@@ -37,7 +37,7 @@ stop() {
     if [ -e $POSTGRESQL_PID ]
     then
         $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG stop
-        echo -e "${red}PostgreSQL is stopped"
+        echo -e "${red}PostgreSQL is stopped ${NC}"
     else
         echo -e "${yellow}PostgreSQL has already stopped ${NC}"
     fi
