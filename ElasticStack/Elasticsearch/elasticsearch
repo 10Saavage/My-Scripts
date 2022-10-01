@@ -1,0 +1,115 @@
+#!/bin/bash
+#
+#Author: TOUSSI MANOEL MALAURY
+#description: this script permit to start, stop elasticsearch  and check status of elasticsearch
+#
+#########################################################################################
+ps -aux | grep "elastic" | pidof java > /dev/null
+verifier=$?
+zero=0
+########################################################################################
+#color of output
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[1;33m'
+NC='\033[0m' #No Color
+########################################################################################
+#edit the variables below in according to your context
+####################
+ES_HOME=$HOME/elasticsearch
+ES_LOG=$ES/logs/<file:cluster log>
+ELASTICSEARCH_PID=$ES/elasticsearch.pid
+#########################################################################################
+#########################################################################################
+#get pid of elasticsearch
+elasticsearch_pid() {
+	echo  `ps -aux | grep elastic | pidof java`
+}
+
+start() {
+	#check elasticsearch is running
+	if [ $zero != $verifier ]
+	then
+		#ulimit -u 4096
+		#check elasticsearch.pid
+		if [ -e $ELASTICSEARCH_PID ]
+		then
+			#delete elasticsearch.pid
+			rm $ELASTICSEARCH_PID
+			#run elasticsearch and display the message
+			$ELASTICSEARCH_HOME/bin/elasticsearch -d -p $ELASTICSEARCH_PID
+			echo -e "${yellow}elasticsearch is starting ... ${NC}"
+		else
+			#run elasticsearch
+			$ELASTICSEARCH_HOME/bin/elasticsearch -d -p $ELASTICSEARCH_PID
+			echo -e "${yellow}elasticsearch is starting ... ${NC}"
+		fi
+	else 
+		echo -e "${yellow}elasticsearch is already started ${NC}"
+	fi
+}
+
+stop() {
+	#check elasticsearch is running
+	if [ $verifier = $zero ]
+	then
+		#check elasticsearch.pid file
+		if [ -e $ELASTICSEARCH_PID ]
+		then
+			#kill elasticsearch process with elasticsearch.pid
+			pkill -F $ELASTICSEARCH_PID
+			echo -e  "${red}elasticsearch is stopped ${NC}"
+
+		#kill elasticsearch process
+		else
+			#kill elasticsearch process
+			pid=$(elasticsearch_pid)
+			kill -9 $pid
+			echo -e "${red}elasticsearch is stopped ${NC}"
+		fi
+	#elasticsearch is stopped
+	else
+		#display message
+		echo -e "${yellow}elasticsearch has already stopped ${NC}"
+	fi
+}
+
+status() {
+	if [ $verifier = $zero ]
+	then
+		echo -e "${green}elasticsearch is running ... ${NC}"
+		tail -n 10 $ELASTICSEARCH_LOG
+	else
+		echo -e "${red}elasticsearch is stopped ${NC}"
+		tail -n 10 $ELASTICSEARCH_LOG
+	fi
+}
+
+help(){
+	echo "Available options are: "
+  	echo "{start|stop|status}"
+   	echo " "
+   	echo "start      to start elasticsearch"
+   	echo "stop       to stop elasticsearch"
+	echo "status 	 to check elasticsearch"
+	echo "display	 to display help"
+}
+
+case "$1" in
+	#start elasticsearch
+	"start")
+		start
+	;;
+	#stop elasticsearch
+	"stop")
+		stop
+	;;
+	#check status of elasticsearch
+	"status")
+		status
+	;;
+	#display help
+	"help")
+		help
+	;;
+esac

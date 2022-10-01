@@ -1,0 +1,125 @@
+#!/bin/bash
+#
+#Author: TOUSSI Manoel Malaury
+#description: this script permit to start, stop kibana and check status of kibana
+#
+###########################################################
+ps -aux | grep "kibana" | pidof "node" > /dev/null
+verifier=$?
+zero=0
+##########################################################
+#color of output
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[1;33m'
+NC='\033[0m' #No Color
+###############################################################
+#edit the variables below in according to your context
+##############################################################
+KIBANA_HOME=$HOME/kibana
+KIBANA_LOG=$KIBANA_HOME/logs/kibana.log
+KIBANA_PID=$KIBANA_HOME/kibana.pid
+###############################################################
+#
+#to get pid of kibana 
+kibana_pid() {
+	echo `ps -aux | grep kibana | pidof node`
+}
+
+start() {
+	#check kibana is running
+	if [ $verifier != $zero ]
+	then
+		#if kibana is running, check the file kibana.pid
+		if [ -e $KIBANA_PID ]
+		then
+			#delete kibana.pid 
+			rm $KIBANA_PID
+			#run kibana
+			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 &
+			echo -e "${yellow}kibana is starting ... ${NC}"
+		else
+			#if kibana.pid file doesn't exist, run kibana
+			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 &
+
+			if [ -e nohup.out ]
+			then
+				rm nohup.out
+			fi
+				echo -e "${yellow}kibana is starting ... ${NC}"
+		fi
+	else
+		#display
+		echo -e "${yellow}kibana has already started ${NC}"
+	fi
+}
+
+stop() {
+	#check kibana is running
+	if [ $verifier = $zero ]
+	then
+		#kibana is running, check kibana.pid file
+		if [ -e $KIBANA_PID ]
+		then
+			#kill process kibana with kibana.pid file
+			echo -e "${yellow}kibana is stopping ${NC}"
+			pkill -F $KIBANA_PID
+			#delete kibana's logs
+			#rm $KIBANA_LOG
+			echo -e "${red}kibana is stopped ${NC}"
+		else
+			#kill process kibana
+			echo -e "${yellow}kibana is stopping ... ${NC}"
+			pid=$(kibana_pid) 
+			kill -9 $pid
+			#delete kibana's logs
+			#rm $KIBANA_LOG
+			echo -e "${red}kibana is stoped"
+		fi
+	else
+		echo -e "${red}kibana has already stopped"
+	fi
+}
+
+status() {
+	#check kibana is running
+	if [ $verifier = $zero ]
+	then
+		#display message and last 10 lines of kibana.log
+		echo -e "${green}kibana is running ... ${NC}"
+		tail -n 10 $KIBANA_LOG
+	else
+		#display message and last 10 lines of kibana.log
+		echo -e "${red}kibana is stopped ${NC}"
+		tail -n 10 $KIBANA_LOG
+	fi
+}
+
+
+# Display Help
+help()
+{
+   echo "Available options are: "
+   echo "{start|stop|status}"
+   echo " "	
+   echo "start      to start elasticsearch"
+   echo "stop       to stop elasticsearch"
+   echo "status     to check the status of elasticsearch service" 
+   echo "help	    to display help"
+}
+
+
+case $1 in
+	"start")
+		start
+	;;
+	"stop")
+		stop
+	;;
+	"status")
+		status
+	;;
+	"help")
+		help
+	;;
+esac
