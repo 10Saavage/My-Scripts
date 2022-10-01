@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+#AUTHOR: TOUSSI MANOEL MALAURY
+#
+#
+###########################################################
+#color of output
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[1;33m'
+NC='\035[0m' #No Color
+###########################################################
+###########################################################
+###########################################################
+#these lines permit to check the status of MySQL service
+ps -aux | grep "mysql" | pidof mysqld > /dev/null
+verifier=$?
+zero=0
+###########################################################
+
+MYSQL_HOME=/usr/local/mysql
+MYSQL_SCRIPTS=$MYSQL_HOME/support-files
+
+start(){
+	$MYSQL_SCRIPTS/mysql.server start
+}
+
+stop(){
+	$MYSQL_SCRIPTS/mysql.server stop
+}
+
+status(){
+	$MYSQL_SCRIPTS/mysql.server status
+}
+
+reload(){
+	$MYSQL_SCRIPTS/mysql.server reload
+}
+
+#to connect to  mysql shell
+connect(){
+	#check if MYSQL service is running
+        if [ $zero = $verifier ]
+	then
+		read -p "user(default: root) : " user
+		if [ $user ]
+		then
+			$MYSQL_HOME/bin/mysql -u $user -p
+		else
+			$MYSQL_HOME/bin/mysql -u root -p
+		fi
+	else
+		echo -e "${red}MySQL is stopped. ${NC}"
+		echo -e "${red}You need to start MySQL service ${NC}"
+	fi
+}
+
+#Display Help
+help()
+{
+   echo "Available options are: "
+   echo "{start|stop|restart|status|connect|-h}"
+   echo " "
+   echo "start      to start MYSQL"
+   echo "stop       to stop MySQL"
+   echo "restart    to restart MySQL"
+   echo "status     to check the status of MySQL"
+   echo "connect    to log on the command line"
+   echo "-h"	    to display help
+}
+
+case "$1" in
+"start")
+start
+;;
+
+"stop")
+stop
+;;
+
+"restart")
+reload
+;;
+
+"status")
+status
+;;
+
+"connect")
+connect
+;;
+
+"")
+start
+;;
+
+"-h")
+help
+;;
+
+*)
+help
+;;
+
+esac
