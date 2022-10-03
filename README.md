@@ -4,3 +4,5 @@ These scripts are for my personal use. they are adapted on my machine, so I do n
 
 * MySQL
 * PostgreSQL
+* Elasticsearch
+* Kibana
