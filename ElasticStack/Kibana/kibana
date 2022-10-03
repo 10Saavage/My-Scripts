@@ -16,7 +16,7 @@ NC='\033[0m' #No Color
 ###############################################################
 #edit the variables below in according to your context
 ##############################################################
-KIBANA_HOME=$HOME/kibana
+KIBANA_HOME=$KIBANA_HOME
 KIBANA_LOG=$KIBANA_HOME/logs/kibana.log
 KIBANA_PID=$KIBANA_HOME/kibana.pid
 ###############################################################
@@ -37,11 +37,12 @@ start() {
 			rm $KIBANA_PID
 			#run kibana
 			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 &
+			echo "&!" > $KIBANA_PID
 			echo -e "${yellow}kibana is starting ... ${NC}"
 		else
 			#if kibana.pid file doesn't exist, run kibana
-			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 &
-
+			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 & 
+			echo "$!" > $KIBANA_PID
 			if [ -e nohup.out ]
 			then
 				rm nohup.out
@@ -74,10 +75,10 @@ stop() {
 			kill -9 $pid
 			#delete kibana's logs
 			#rm $KIBANA_LOG
-			echo -e "${red}kibana is stoped"
+			echo -e "${red}kibana is stopped ${NC}"
 		fi
 	else
-		echo -e "${red}kibana has already stopped"
+		echo -e "${red}kibana has already stopped ${NC}"
 	fi
 }
 
@@ -113,6 +114,9 @@ case $1 in
 	"start")
 		start
 	;;
+	"")
+		start
+	;;
 	"stop")
 		stop
 	;;
@@ -120,6 +124,9 @@ case $1 in
 		status
 	;;
 	"help")
+		help
+	;;
+	"*")
 		help
 	;;
 esac
