@@ -1,8 +1,7 @@
 #!/bin/bash
-#
 #AUTHOR: TOUSSI MANOEL MALAURY
 #
-#
+#Description: start, stop, check status of elasticsearch 
 ###########################################################
 #color of output
 red='\033[0;31m'
@@ -17,8 +16,10 @@ ps -aux | grep "mysql" | pidof mysqld > /dev/null
 verifier=$?
 zero=0
 ###########################################################
-
-MYSQL_HOME=/usr/local/mysql
+#update variables below in according to your context or 
+#set MYSQL_HOME as environment variable
+##########################################################
+MYSQL_HOME=$MYSQL_HOME
 MYSQL_SCRIPTS=$MYSQL_HOME/support-files
 
 start(){
@@ -59,47 +60,48 @@ connect(){
 help()
 {
    echo "Available options are: "
-   echo "{start|stop|restart|status|connect|-h}"
+   echo "{start|stop|restart|status|connect|-h|help}"
    echo " "
    echo "start      to start MYSQL"
    echo "stop       to stop MySQL"
    echo "restart    to restart MySQL"
    echo "status     to check the status of MySQL"
    echo "connect    to log on the command line"
-   echo "-h"	    to display help
+   echo "help or -h	    to display help"
 }
 
 case "$1" in
-"start")
-start
-;;
-
-"stop")
-stop
-;;
-
-"restart")
-reload
-;;
-
-"status")
-status
-;;
-
-"connect")
-connect
-;;
-
-"")
-start
-;;
-
-"-h")
-help
-;;
-
-*)
-help
-;;
-
+	#start MySQL
+	"start")
+		start
+	;;
+	"")
+		start
+	;;
+	#stop MySQL
+	"stop")
+		stop
+	;;
+	#restart MySQL
+	"restart")
+		reload
+	;;
+	#check status of MySQL
+	"status")
+		status
+	;;
+	#connect on MYSQL shell
+	"connect")
+		connect
+	;;
+	#display help
+	"")
+		help
+	;;
+	"-h")
+		help
+	;;
+	*)
+		help
+	;;
 esac
