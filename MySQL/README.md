@@ -1,7 +1,7 @@
 # MySQL
 
 ## Prerequisites
-Update **KIBANA_HOME** variable in according to your context or
+Update **MYSQL_HOME** variable in according to your context or
 set it as environment variable
 
 ## Permissions

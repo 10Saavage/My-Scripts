@@ -1,5 +1,9 @@
 # PostgreSQL
 
+## Prerequisites
+update variable **POSTGRESQL_HOME** in according to your context or
+set it as environment variable
+
 ## Permissions
 
 ``` bash
@@ -51,7 +55,13 @@ use parameter **connect**
 ```
 ### Display Help
 
-use parameter **-h**
+use parameter **help** or  **-h** 
+
+```bash
+./postgres help
+```
+
+or
 
 ``` bash
 ./postgres -h
