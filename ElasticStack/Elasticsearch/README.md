@@ -1,5 +1,9 @@
 # Elasticsearch
 
+## Prerequisites
+update variable **ES_HOME** in according to your context
+or set **ES_HOME** as environment variable
+
 ## Permissions
 
 ```bash
@@ -13,6 +17,12 @@ use parameter **start**
 
 ```bash
 ./elasticsearch  start
+```
+
+or
+
+```bash
+./elasticsearch
 ```
 
 ### Stop elasticsearch service
@@ -30,8 +40,14 @@ use parameter **status**
 ```
 
 ### Display help
-use parameter **help**
+use parameter **help** or **-h**
 
 ```bash
 ./elasticsearch help
+```
+
+or
+
+```bash
+./elasticsearch -h
 ```

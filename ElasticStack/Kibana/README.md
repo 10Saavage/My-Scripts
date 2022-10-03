@@ -2,7 +2,7 @@
 
 ## Prerequisites
 Update variable **KIBANA_HOME** in according to your context
-
+or set **KIBANA_HOME** as environment variable
 
 ## Permissions
 

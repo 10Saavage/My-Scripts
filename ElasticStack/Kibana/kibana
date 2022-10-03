@@ -1,8 +1,7 @@
 #!/bin/bash
 #
 #Author: TOUSSI Manoel Malaury
-#description: this script permit to start, stop kibana and check status of kibana
-#
+#description: this script permit to start, stop kibana and check status of kibana#
 ###########################################################
 ps -aux | grep "kibana" | pidof "node" > /dev/null
 verifier=$?
@@ -101,29 +100,36 @@ status() {
 help()
 {
    echo "Available options are: "
-   echo "{start|stop|status}"
+   echo "{start|stop|status|help|-h}"
    echo " "	
    echo "start      to start elasticsearch"
    echo "stop       to stop elasticsearch"
-   echo "status     to check the status of elasticsearch service" 
-   echo "help	    to display help"
+   echo "status     to check the status of elasticsearch" 
+   echo "help or -h	    to display help"
 }
 
 
 case $1 in
+	#start kibana
 	"start")
 		start
 	;;
 	"")
 		start
 	;;
+	#stop kibana
 	"stop")
 		stop
 	;;
+	#check status of kibana
 	"status")
 		status
 	;;
+	#Display help
 	"help")
+		help
+	;;
+	"-h")
 		help
 	;;
 	"*")
