@@ -8,42 +8,42 @@ chmod +x postgres
 
 ## Usage
 
-### Start PostgreSQL service
+### Start PostgreSQL
 use parameter **start**
 
 ``` bash
 ./postgres start
 ```
 
-### Stop PostgreSQL service
+### Stop PostgreSQL
 use parameter **stop**
 
 ``` bash
 ./postgres stop
 ```
 
-### check the status PostgreSQL service
+### check the status PostgreSQL
 use parameter **status**
 
 ``` bash
 ./postgres status
 ```
 
-### Restart PostgreSQL service
+### Restart PostgreSQL
 use parameter **restart**
 
 ``` bash
 ./postgres restart
 ```
 
-### list all databases of PostgreSQL
+### list all databases of PostgreSQL server
 use parameter **list_db**
 
 ``` bash
 ./postgres list_db
 ```
 
-### Log on the command line
+### connect on PostgreSQL shell
 use parameter **connect**
 
 ``` bash

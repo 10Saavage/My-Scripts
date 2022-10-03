@@ -1,18 +1,13 @@
 #!/bin/bash
-#!/bin/bash
 #
 #AUTHOR: TOUSSI MANOEL MALAURY
-#DESCRIPTION
-#
-#COMMANDS
-
-###########################################################
+#DESCRIPTION: start, stop, check status of MySQL and connect to MySQL shell
+############################################################################
 #these lines permit to check the status of MySQL service
 ps -aux | grep "mysql" | pidof mysqld > /dev/null
 verifier=$?
 zero=0
 ###########################################################
-
 ###########################################################
 #color of output
 red='\033[0;31m'
@@ -37,15 +32,15 @@ start() {
         #check if mysql.pid exists
         if [ -e $MYSQL_PID ]
         then
-        rm $MYSQL_PID
-        $MYSQL_HOME/bin/mysqld -D --pid-file=$MYSQL_PID
-        echo -e "${yellow}MySQL is starting ... ${NC}"
+        	rm $MYSQL_PID
+        	$MYSQL_HOME/bin/mysqld -D --pid-file=$MYSQL_PID
+        	echo -e "${yellow}MySQL is starting ... ${NC}"
         else
-        $MYSQL_HOME/bin/mysqld -D --pid-file=$MYSQL_PID
-        echo -e "${yellow}MySQL is starting ... ${NC}"
+        	$MYSQL_HOME/bin/mysqld -D --pid-file=$MYSQL_PID
+        	echo -e "${yellow}MySQL is starting ... ${NC}"
         fi
     else
-    echo -e "${yellow}MySQL is already started ${NC}"
+    	echo -e "${yellow}MySQL is already started ${NC}"
     fi
 }
 
@@ -57,15 +52,15 @@ stop() {
         #check if mysql.pid exists
         if [ -e $MYSQL_PID ]
         then
-        pkill -F $MYSQL_PID
-        echo -e "${red}MySQL is stopped ${NC}"
+        	pkill -F $MYSQL_PID
+        	echo -e "${red}MySQL is stopped ${NC}"
         else
-        pid=${mysql_pid}
-        kill -9 $pid
-        echo -e "${red}MySQL is stopped ${NC}"
+        	pid=${mysql_pid}
+        	kill -9 $pid
+        	echo -e "${red}MySQL is stopped ${NC}"
         fi 
     else
-    echo -e "${yellow}MySQL has already stopped ${NC}"
+    	echo -e "${yellow}MySQL has already stopped ${NC}"
     fi
 }
 
@@ -74,9 +69,9 @@ status() {
     #check if MySQL is running
     if [ $zero = $verifier ]
     then
-    echo -e "${green}MySQL is running ... ${NC}"
+    	echo -e "${green}MySQL is running ... ${NC}"
     else
-    echo -e "${red}MySQL is stopped ${NC}"
+    	echo -e "${red}MySQL is stopped ${NC}"
     fi
 }
 
@@ -108,36 +103,37 @@ help() {
     echo "stop      to stop MySQL"
     echo "status    to check the status of MySQL"
     echo "connect   to log on the command line"
-
+    echo "help or -h to display help"
 }
 
-case "$1" in 
-"start")
-start
-;;
-
-"stop")
-stop
-;;
-
-"status")
-status
-;;
-
-"connect")
-connect
-;;
-
-"")
-start
-;;
-
-"-h")
-help
-;;
-
-*)
-help
-;;
-
+case "$1" in
+       	#start MySQL	
+	"start")
+		start
+	;;
+	"")
+		start
+	;;
+	#stop MySQL
+	"stop")
+		stop
+	;;
+	#check status of MySQL
+	"status")
+		status
+	;;
+	#connect to MySQL shell
+	"connect")
+		connect
+	;;
+	#display help
+	"help")
+		help
+	;;
+	"-h")
+		help
+	;;
+	*)
+		help
+	;;
 esac

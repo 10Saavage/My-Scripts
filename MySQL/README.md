@@ -7,21 +7,20 @@ chmod +x mysql
 ```
 ## Usage
 
-### Start the MySQL service
+### Start MySQL
 
 use parameter **start**
 ``` bash
 ./mysql start
 ```
 
-you can also make this
+or 
+
 ``` bash
 ./mysql
 ```
-
-
   
-### Stop the MySQL Service
+### Stop MySQL
 
 use parameter **stop**
 ``` bash
@@ -34,7 +33,8 @@ use parameter **status**
 ``` bash
 ./mysql status
 ```
-### Log on the Command line
+
+### to connect on MySQL shell
 
 use parameter **connect**
 ``` bash
@@ -43,7 +43,13 @@ use parameter **connect**
 
 ### Display Help
 
-use parameter **-h**
+use parameter **help** or  **-h**
+
+```bash
+./mysql help
+```
+
+or
 
 ``` bash
 ./mysql -h

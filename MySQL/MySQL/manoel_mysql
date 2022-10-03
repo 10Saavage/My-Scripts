@@ -106,12 +106,13 @@ connect() {
 #Display Help
 help() {
     echo "Available options are: "
-    echo "{start|stop|status|log}"
+    echo "{start|stop|status|help|-h}"
     echo " "
     echo "start     to start MySQL"
     echo "stop      to stop MySQL"
     echo "status    to check the status of MySQL"
     echo "connect   to log on the command line"
+    echo "help or -h to display help"
 
 }
 

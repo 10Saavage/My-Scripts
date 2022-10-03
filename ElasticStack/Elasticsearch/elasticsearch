@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #Author: TOUSSI MANOEL MALAURY
-#description: this script permit to start, stop elasticsearch  and check status of elasticsearch
+#description: start, stop elasticsearch and check status of elasticsearch
 #########################################################################################
 ps -aux | grep "elastic" | pidof java > /dev/null
 verifier=$?

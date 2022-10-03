@@ -19,6 +19,12 @@ use parameter **start**
 ./kibana start
 ```
 
+or
+
+```bash
+./kibana
+```
+
 ### Stop kibana service
 use parameter **stop**
 ```bash
