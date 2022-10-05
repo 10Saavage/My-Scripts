@@ -1,8 +1,9 @@
 # MySQL
 
 ## Prerequisites
-Update **MYSQL_HOME** variable in according to your context or
-set it as environment variable
+Update **MYSQL_HOME** variable in according to your context   
+or  
+set it as environment variable and export it
 
 ## Permissions
 

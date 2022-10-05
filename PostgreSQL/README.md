@@ -1,8 +1,9 @@
 # PostgreSQL
 
 ## Prerequisites
-update variable **POSTGRESQL_HOME** in according to your context or
-set it as environment variable
+update variable **POSTGRESQL_HOME** in according to your context  
+or  
+set it as environment variable and export it
 
 ## Permissions
 

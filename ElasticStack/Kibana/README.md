@@ -1,8 +1,9 @@
 # Kibana
 
 ## Prerequisites
-Update variable **KIBANA_HOME** in according to your context
-or set **KIBANA_HOME** as environment variable
+Update variable **KIBANA_HOME** in according to your context  
+or  
+set **KIBANA_HOME** as environment variable and export it
 
 ## Permissions
 

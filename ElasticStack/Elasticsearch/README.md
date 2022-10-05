@@ -1,8 +1,10 @@
 # Elasticsearch
 
 ## Prerequisites
-update variable **ES_HOME** in according to your context
-or set **ES_HOME** as environment variable
+update variable **ES_HOME** in according to your context  
+or  
+set **ES_HOME** as environment variable and export it
+
 
 ## Permissions
 
