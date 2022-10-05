@@ -1,10 +1,12 @@
 # Elasticsearch
 
 ## Prerequisites
-update variable **ES_HOME** in according to your context  
+1. update variable **ES_HOME** in according to your context  
 or  
-set **ES_HOME** as environment variable and export it
+set **ES_HOME** as environment variable and export it  
 
+2. update variable **ES_LOG** in according to your context  
+(replace <file:cluster log> by the cluster name + .log)
 
 ## Permissions
 
