@@ -36,12 +36,13 @@ start() {
 			rm $KIBANA_PID
 			#run kibana
 			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 &
-			echo "&!" > $KIBANA_PID
+			ps -aux | grep kibana | pidof node > $KIBANA_PID
 			echo -e "${yellow}kibana is starting ... ${NC}"
 		else
 			#if kibana.pid file doesn't exist, run kibana
 			nohup $KIBANA_HOME/bin/kibana serve >> $KIBANA_LOG 2>&1 & 
-			echo "$!" > $KIBANA_PID
+			ps -aux | grep kibana | pidof node > $KIBANA_PID
+			
 			if [ -e nohup.out ]
 			then
 				rm nohup.out
