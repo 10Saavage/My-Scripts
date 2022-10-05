@@ -74,6 +74,7 @@ stop() {
 }
 
 status() {
+	#check if elasticsearch is running
 	if [ $verifier = $zero ]
 	then
 		echo -e "${green}elasticsearch is running ... ${NC}"

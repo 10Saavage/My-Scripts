@@ -3,6 +3,11 @@
 #AUTHOR: TOUSSI MANOEL MALAURY
 #DESCRIPTION: start, stop, check status of PostgreSQL and connect on Postgresql shell
 #######################################################################################
+##########################################
+ps -aux | grep "postgres" | pidof postgres > /dev/null
+verifier=$?
+zero=0
+##############################
 #color of output
 red='\033[0;31m'
 green='\033[0;32m'
@@ -17,55 +22,82 @@ POSTGRESQL_LOG=$POSTGRESQL_HOME/logs/postgresql
 ##########################################################
 #you must create the directory logs on POSTGRESQL_HOME
 #mkdir logs
-#create file postgre
-#touch postgre
+#create file postgresql
+#touch postgresql
 ##########################################################
 POSTGRESQL_PID=$POSTGRESQL_HOME/data/postmaster.pid
 POSTGRESQL_DATA=$POSTGRESQL_HOME/data
-
+###################################################################
+#get pid of postgresql
+postgresql_pid() {
+	echo `ps -aux | grep "postgres" | pidof postgres`
+}
+#
 #to start PostgreSQL service
 start() {
     #chek if PostgreSQL service is running
-    #check if file 'postmaster.pid' exists
-    if [ -e $POSTGRESQL_PID ] 
+    if [ $zero != $verifier ]
     then
-        echo -e "${yellow}PostgreSQL is already started ${NC}"
+    	#check if file 'postmaster.pid' exists
+    	if [ -e $POSTGRESQL_PID ] 
+	then
+		#delete postmaster.pid
+		rm $POSTGRESQL_PID
+		$POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+      		echo -e "${yellow}PostgreSQL is starting ... ${NC}"
+    	else
+        	$POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+		echo -e "${yellow}PostgreSQL is starting ... ${NC}"
+    	fi
     else
-        $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+    	echo -e "${yellow}PostgreSQL is already started ${NC}"	    
     fi
 }
 
 #to stop PostgreSQL service
 stop() {
     #chek if PostgreSQL service is running
-    #check if file 'postmaster.pid' exists
-    if [ -e $POSTGRESQL_PID ]
+    if [ $verifier = $zero ]
     then
-        $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG stop
-        echo -e "${red}PostgreSQL is stopped ${NC}"
+    	#check if file 'postmaster.pid' exists
+    	if [ -e $POSTGRESQL_PID ]
+    	then
+        	$POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG stop
+        	echo -e "${red}PostgreSQL is stopped ${NC}"
+    	else
+		#kill elasticsearch process
+		pid=$(postgresql_pid)
+		kill -9 $pid
+		echo -e "${red}PostgreSQL is stopped ${NC}"
+    	fi
     else
-        echo -e "${yellow}PostgreSQL has already stopped ${NC}"
+	    #display message
+	    echo -e "${yellow}PostgreSQL has already stopped ${NC}"
     fi
 }
 
 #to restart PostgreSQL service
 restart() {
     #chek if PostgreSQL service is running
-    #check if file 'postmaster.pid' exists
-    if [ -e $POSTGRESQL_PID ]
+    if [ $verifier = $zero ]
     then
-        $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG reload
-        echo -e "${yellow}PostgreSQL has restarted ${NC}"
+	    $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG reload
+	    echo -e "${yellow}PostgreSQL has restarted ${NC}"
+    elif [ -e $POSTGRESQL_PID ]
+    then
+	    rm $POSTGRESQL_PID
+	    $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+	    echo -e "${yellow}PostgreSQL has started ${NC}"
     else
-        $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+	    $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA -l $POSTGRESQL_LOG start
+	    echo -e "${yellow}PostgreSQL has started  ${NC}"
     fi
 }
 
 #check the status of PostgreSQL
 status() {
     #chek if PostgreSQL service is running
-    #check if file 'postmaster.pid' exists
-    if [ -e $POSTGRESQL_PID ]
+    if [ $verifier = $zero ]
     then
         $POSTGRESQL_HOME/bin/pg_ctl -D $POSTGRESQL_DATA status
         echo -e "${green}PostgreSQL is running ... ${NC}"
@@ -77,16 +109,24 @@ status() {
 
 #list databases
 list_databases() {
-    $POSTGRESQL_HOME/bin/psql -U postgres -l 
+	echo -e "List Databases"
+	read -p "user(default: postgres): " user
+
+	#default if user is not null
+	if [ $user ]
+	then
+		$POSTGRESQL_HOME/bin/psql -U $user -l -W
+	else
+		$POSTGRESQL_HOME/bin/psql -U postgres -l -W
+	fi
 }
 
 #connect on PostgreSQL shell
 connect() {
     #chek if PostgreSQL service is running
     #check if file 'postmaster.pid' exists
-    if [ -e $POSTGRESQL_PID ]
+    if [ $verifier = $zero ]
     then
-        list_databases
         echo -e "Connect to Database"
         read -p "user(default: postgres) : " user
         read -p "Name of Database: " database

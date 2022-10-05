@@ -15,10 +15,9 @@ green='\033[0;32m'
 yellow='\033[1;33m'
 NC='\033[0m' #No Color
 ###########################################################
-
-MYSQL_HOME=/usr/local/mysql
+MYSQL_HOME=$MYSQL_HOME
 MYSQL_PID=$MYSQL_HOME/data/mysql.pid
-
+###########################################################
 #get the pid of MySQL
 mysql_pid() {
     echo `ps -aux | grep "mysql" | pidof mysqld`

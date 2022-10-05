@@ -21,13 +21,30 @@ zero=0
 ##########################################################
 MYSQL_HOME=$MYSQL_HOME
 MYSQL_SCRIPTS=$MYSQL_HOME/support-files
-
+########################################################
+#get pid of MySQL
+mysql_pid() {
+    echo `ps -aux | grep "mysql" | pidof mysqld`
+}
+###############################################
 start(){
-	$MYSQL_SCRIPTS/mysql.server start
+	#check if MySQL service is running
+    	if [ $zero != $verifier ]
+    	then
+		$MYSQL_SCRIPTS/mysql.server start
+	else
+		echo -e "${yellow}MySQL is already started ${NC}"
+	fi
 }
 
 stop(){
-	$MYSQL_SCRIPTS/mysql.server stop
+	#check if MySQL is running
+    	if [ $zero = $verifier ]
+    	then
+		$MYSQL_SCRIPTS/mysql.server stop
+	else
+		echo -e "${yellow}MySQL is already stopped ${NC}"
+	fi
 }
 
 status(){

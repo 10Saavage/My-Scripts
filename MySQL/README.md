@@ -58,3 +58,7 @@ or
 ``` bash
 ./mysql -h
 ```
+
+
+### IMPORTANT !!!
+**mysql** et **mysql2** should use independantly
