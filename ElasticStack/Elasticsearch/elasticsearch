@@ -17,7 +17,7 @@ NC='\033[0m' #No Color
 ########################################################################################
 ES_HOME=$ES_HOME
 ES_LOG=$ES_HOME/logs/<file:cluster log>
-ELASTICSEARCH_PID=$ES_HOME/elasticsearch.pid
+ES_PID=$ES_HOME/elasticsearch.pid
 #########################################################################################
 #########################################################################################
 #get pid of elasticsearch
@@ -31,16 +31,16 @@ start() {
 	then
 		#ulimit -u 4096
 		#check elasticsearch.pid
-		if [ -e $ELASTICSEARCH_PID ]
+		if [ -e $ES_PID ]
 		then
 			#delete elasticsearch.pid
-			rm $ELASTICSEARCH_PID
+			rm $ES_PID
 			#run elasticsearch and display the message
-			$ELASTICSEARCH_HOME/bin/elasticsearch -d -p $ELASTICSEARCH_PID
+			$ES_HOME/bin/elasticsearch -d -p $ES_PID
 			echo -e "${yellow}elasticsearch is starting ... ${NC}"
 		else
 			#run elasticsearch
-			$ELASTICSEARCH_HOME/bin/elasticsearch -d -p $ELASTICSEARCH_PID
+			$ES_HOME/bin/elasticsearch -d -p $ES_PID
 			echo -e "${yellow}elasticsearch is starting ... ${NC}"
 		fi
 	else 
@@ -53,10 +53,10 @@ stop() {
 	if [ $verifier = $zero ]
 	then
 		#check elasticsearch.pid file
-		if [ -e $ELASTICSEARCH_PID ]
+		if [ -e $ES_PID ]
 		then
 			#kill elasticsearch process with elasticsearch.pid
-			pkill -F $ELASTICSEARCH_PID
+			pkill -F $ES_PID
 			echo -e  "${red}elasticsearch is stopped ${NC}"
 
 		#kill elasticsearch process
@@ -78,10 +78,10 @@ status() {
 	if [ $verifier = $zero ]
 	then
 		echo -e "${green}elasticsearch is running ... ${NC}"
-		tail -n 10 $ELASTICSEARCH_LOG
+		tail -n 10 $ES_LOG
 	else
 		echo -e "${red}elasticsearch is stopped ${NC}"
-		tail -n 10 $ELASTICSEARCH_LOG
+		tail -n 10 $ES_LOG
 	fi
 }
 
